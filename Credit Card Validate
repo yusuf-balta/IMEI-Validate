@@ -1,0 +1,36 @@
+  bool checkCreditNo({required String creditNo}) {
+    int sum = 0;
+    int howManyDigit = 0;
+    List<String> characters = creditNo.split("");
+
+    if (characters.length < 16) {
+      return false;
+    }
+    for (var element in characters) {
+      if (!element.isNum) {
+        return false;
+      }
+    }
+
+    List<int> charactersInt = characters.map((e) => int.tryParse(e)!).toList();
+    List<int> newCharactersInt = characters.map((e) => int.tryParse(e)!).toList();
+
+    for (int i = 0; i < 16; i += 2) {
+      int temp = charactersInt[i] * 2;
+      String tempString = temp.toString();
+      if (tempString.length > 1) {
+        int firstDigit = temp % 10;
+        int secondDigit = temp ~/ 10;
+        newCharactersInt[i + howManyDigit] = firstDigit;
+        newCharactersInt.insert(i + howManyDigit, secondDigit);
+        howManyDigit++;
+      } else {
+        newCharactersInt[i + howManyDigit] = temp;
+      }
+    }
+    for (int x in newCharactersInt) {
+      sum += x;
+    }
+
+    return sum % 10 == 0;
+  }
