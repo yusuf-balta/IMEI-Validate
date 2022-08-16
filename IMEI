@@ -1,0 +1,39 @@
+bool checkIMEI({required String imei}) {
+    int sum = 0;
+    int howManyDigit = 0;
+    List<String> characters = imei.split("");
+    int sumRound = 0;
+
+    if (characters.length < 15) {
+      return false;
+    }
+    List<int> charactersInt = characters.map((e) => int.tryParse(e)!).toList();
+    List<int> newCharactersInt = characters.map((e) => int.tryParse(e)!).toList();
+
+    int lastDigit = charactersInt.last;
+    newCharactersInt.removeLast();
+
+    for (int i = 1; i < 15; i += 2) {
+      int temp = charactersInt[i] * 2;
+      String tempString = temp.toString();
+      
+      if (tempString.length > 1) {
+        int firstDigit = temp % 10;
+        int secondDigit = temp ~/ 10;
+        newCharactersInt[i + howManyDigit] = firstDigit;
+        newCharactersInt.insert(i + howManyDigit, secondDigit);
+        howManyDigit++;
+      } else {
+        newCharactersInt[i + howManyDigit] = temp;
+      }
+    }
+    
+    for (int x in newCharactersInt) {
+      sum += x;
+    }
+    
+    sumRound = roundTens(number: sum);
+    LogHelper.logger(msg: sum.toString());
+
+    return ((sumRound - sum) == lastDigit) || ((sumRound - sum) == 10);
+  }
