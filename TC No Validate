@@ -1,0 +1,24 @@
+  bool checkTcNo({required String tcNo}) {
+    List charters = tcNo.split('');
+    int tcToplam = 0;
+    int tek = toInt(charters[0]) + toInt(charters[2]) + toInt(charters[4]) + toInt(charters[6]) + toInt(charters[8]);
+    int cift = toInt(charters[1]) + toInt(charters[3]) + toInt(charters[5]) + toInt(charters[7]);
+
+    tek = tek * 7;
+    int sonuc = (tek - cift).abs() % 10;
+    if (sonuc.toString() != charters[9]) {
+      return false;
+    }
+
+    for (var i = 0; i < 10; i++) {
+      tcToplam += toInt(charters[i]);
+    }
+
+    tcToplam = tcToplam % 10;
+
+    if (tcToplam.toString() != charters[10]) {
+      return false;
+    }
+
+    return true;
+  }
